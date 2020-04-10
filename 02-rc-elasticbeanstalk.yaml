@@ -692,7 +692,7 @@ Resources:
                           #only do the below tasks if it's the first deployment to this server.
                           if [ ! -f /eb-configured ]; then
                           
-                          yum install -y mysql57 php70-zip php70-ldap sendmail-cf
+                          yum install -y mysql57 php73-ldap sendmail-cf
                           yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
                           restart amazon-ssm-agent
                           
@@ -860,7 +860,7 @@ Resources:
           aws s3 mb s3://${S3FileRepositoryBucket}
           aws s3api put-bucket-encryption --bucket ${S3FileRepositoryBucket} --server-side-encryption-configuration '{ "Rules": [ { "ApplyServerSideEncryptionByDefault": { "SSEAlgorithm": "AES256" } } ] }'
           #Tell Elastic Beanstalk what the latest PHP 7 solution stack is 
-          export SOLUTION_STACK=`aws elasticbeanstalk list-available-solution-stacks | grep "PHP 7" | head -1 | cut -d \" -f2`
+          export SOLUTION_STACK=`aws elasticbeanstalk list-available-solution-stacks | grep "PHP 7.3" | head -1 | cut -d \" -f2`
           /opt/aws/bin/cfn-signal --stack ${AWS::StackName} --region ${AWS::Region} "${EC2WaitHandle}" -d "$SOLUTION_STACK"
           #Shutdown and terminate this temporary instance 
           sleep 20
